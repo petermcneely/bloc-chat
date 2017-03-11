@@ -1,0 +1,8 @@
+<div class="chat-room">
+    <h2 class="chat-room-title">Chat Rooms</h2>
+    <nav class="nav navbar-nav">
+        <ul class="nav nav-stacked nav-pills" ng-repeat="room in $ctrl.chatRooms">
+            <li role="presentation"><a href="#">{{room.$value}}</a></li>
+        </ul>
+    </nav>
+</div>
