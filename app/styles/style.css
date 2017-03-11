@@ -3,15 +3,28 @@
     top: 0px;
     left: 0px;
     bottom: 0px;
-    width: 200px;
+    width: 320px;
     background-color: rgba(128, 128, 128, 0.5);
 }
 
 .chat-room-title {
-    text-align: center;
+    margin: 20px 15px 0px 10px;
     font-weight: bold;
+    font-size: 3rem;
+    float: left;
+}
+
+.chat-room button {
+    margin-top: 25px;
 }
 
 .chat-room ul {
-    padding-left: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+    list-style: none;
 }
+
+.chat-room ul a {
+    text-decoration: none; 
+}
+
