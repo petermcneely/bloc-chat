@@ -5,7 +5,17 @@
 		var rooms = $firebaseArray(ref);
 
 		return {
-			all: rooms
+            all: rooms,
+            add: function (room) {
+                rooms.$add(room).then(
+                    function (ref) {
+                        console.log("Added record with id: " + ref.key);
+                    },
+                    function (err) {
+                        console.log("Unable to add record: " + err);
+                    }
+                );
+            }
 		};
 	}
 
