@@ -22,7 +22,10 @@
 
     var chatRooms = {
         templateUrl: "../templates/chatRooms.html",
-        controller: ['Room', '$uibModal', ChatRoomsController]
+        controller: ['Room', '$uibModal', ChatRoomsController],
+        bindings: {
+            onUpdateCurrentChatRoom: '&'
+        }
     };
 
     angular
