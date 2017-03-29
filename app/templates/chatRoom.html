@@ -1,5 +1,6 @@
 <div class="chat-room">
     <h3>{{$ctrl.room}}</h3>
+    {{$ctrl.messages}}
     <ul ng-repeat="item in $ctrl.messages">
         <li>{{item.content}}</li>
     </ul>
