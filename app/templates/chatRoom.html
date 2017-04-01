@@ -1,0 +1,9 @@
+<div ng-if="$ctrl.room" class="chat-room">
+    <h3>{{$ctrl.room.name}}</h3>
+    <ul ng-if="!$ctrl.loading" class="list-group">
+        <li class="list-group-item" ng-repeat="message in $ctrl.room.messages" message="message" ng-class="{'list-group-item-gray': $even}">
+            <message message="message"></message>
+        </li>
+    </ul>
+    <div class="text-center" ng-if="$ctrl.loading"><span class="fa fa-refresh fa-spin fa-3x fa-fw"></span></div>
+</div>
