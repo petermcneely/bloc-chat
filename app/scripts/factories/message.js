@@ -13,9 +13,11 @@
 
                     return messagesForRoomQuery.once('value').then(function (messagesSnapshot) {
                         var messages = messagesSnapshot.val();
-                        messages.forEach(function (message) {
-                            message.username = users[message.userId].username;
-                        });
+                        if (messages) {
+                            messages.forEach(function (message) {
+                                message.username = users[message.userId].username;
+                            });
+                        }
                         return messages;
                     });
                 });

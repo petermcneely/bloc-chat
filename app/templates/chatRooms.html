@@ -2,6 +2,6 @@
     <div class="chat-rooms-title">Chat Rooms</div>
     <button ng-click="$ctrl.addRoom()" class="btn">New Room</button>
     <ul ng-repeat="room in $ctrl.chatRooms">
-        <li><a href="#" ng-click="$ctrl.onUpdateCurrentChatRoom({id: room.$id, value: room.$value})">{{room.$value}}</a></li>
+        <li><a href="#" ng-click="$ctrl.onUpdateCurrentChatRoom({room: {id: room.$id, name: room.$value}})">{{room.$value}}</a></li>
     </ul>
 </div>

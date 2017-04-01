@@ -1,17 +1,15 @@
 (function () {
 
     function ChatRoomsController(Room, $uibModal) {
+        var self = this;
+        self.chatRooms = Room.all;
 
-        this.chatRooms = Room.all;
-
-        this.addRoom = function () {
+        self.addRoom = function () {
 
             var modalInstance = $uibModal.open({
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
-                controller: 'NewRoomCtrl',
-                controllerAs: '$ctrl',
-                templateUrl: '../templates/newRoomModal.html'
+                component: 'chatRoomCreate'
             });
 
             modalInstance.result.then(function (newRoom) {
