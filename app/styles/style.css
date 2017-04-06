@@ -1,6 +1,10 @@
+.home {
+    top: 50px;
+}
+
 .chat-rooms {
     position: fixed;
-    top: 0px;
+    top: 50px;
     left: 0px;
     bottom: 0px;
     width: 320px;
