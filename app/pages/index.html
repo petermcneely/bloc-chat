@@ -8,28 +8,101 @@
     <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.css" />
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
 
-	<ui-view></ui-view>
+    <div id="loader">Loading...</div>
+    <ui-view style="display:none;" id="ui-view"></ui-view>
+    <div id="firebaseui-auth-container"></div>
+	
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
     <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/1.0.1/firebaseui.js"></script>
 	<script>
 	  // Initialize Firebase
 	  var config = {
 	    apiKey: "AIzaSyADhQwObzuxZfB4O7a-6Z4PtU2svoVfYEU",
 	    authDomain: "bloc-chat-5533b.firebaseapp.com",
 	    databaseURL: "https://bloc-chat-5533b.firebaseio.com",
-	    storageBucket: "",
+	    projectId: "bloc-chat-5533b",
+	    storageBucket: "bloc-chat-5533b.appspot.com",
 	    messagingSenderId: "822971279011"
 	  };
 	  firebase.initializeApp(config);
 	</script>
+    <script type="text/javascript">
+      initApp = function() {
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+            var displayName = user.displayName;
+            var email = user.email;
+            var emailVerified = user.emailVerified;
+            var photoURL = user.photoURL;
+            var uid = user.uid;
+            var providerData = user.providerData;
+            user.getToken().then(function (accessToken) {
+                document.getElementById("ui-view").style.display = 'block';
+                document.getElementById("firebaseui-auth-container").style.display = 'none';
+                document.getElementById("loader").style.display = 'none';
+            });
+          } else {
+              // User is signed out.
+              document.getElementById("ui-view").style.display = 'none';
+              document.getElementById("firebaseui-auth-container").style.display = 'block';
+              document.getElementById("loader").style.display = 'block';
+              var uiConfig = {
+                  callbacks: {
+                      signInSuccess: function (currentUser, credential, redirectUrl) {
+                          // Do something.
+                          // Return type determines whether we continue the redirect automatically
+                          // or whether we leave that to developer to handle.
+                          return true;
+                      },
+                      uiShown: function () {
+                          // The widget is rendered.
+                          // Hide the loader.
+                          document.getElementById('loader').style.display = 'none';
+                      }
+                  },
+                  credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+                  // Query parameter name for mode.
+                  queryParameterForWidgetMode: 'mode',
+                  // Query parameter name for sign in success url.
+                  queryParameterForSignInSuccessUrl: 'signInSuccessUrl',
+                  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+                  signInFlow: 'redirect',
+                  signInSuccessUrl: '/',
+                  signInOptions: [
+                    {
+                        provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                        // Whether the display name should be displayed in the Sign Up page.
+                        requireDisplayName: true
+                    }
+                  ],
+                  // Terms of service url.
+                  tosUrl: '/'
+              };
+
+              var ui = new firebaseui.auth.AuthUI(firebase.auth());
+              // The start method will wait until the DOM is loaded.
+              ui.start('#firebaseui-auth-container', uiConfig);
+          }
+        }, function(error) {
+          console.log(error);
+        });
+      };
+
+      window.addEventListener('load', function() {
+        initApp()
+      });
+    </script>
 	<script src="/scripts/app.js"></script>
     <script src="/scripts/components/home.js"></script>
     <script src="/scripts/components/chatRooms.js"></script>
