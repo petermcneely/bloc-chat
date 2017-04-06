@@ -40,3 +40,24 @@
 .list-group-item-gray {
     background-color: lightgray;
 }
+
+.chat-room-form {
+    background: red;
+    position: fixed;
+    left: 320px;
+    right: 0px;
+    bottom: 0px;
+    height: 100px;
+}
+
+.chat-room-form .message {
+    background: green;
+    resize: none;
+    height: 50%;
+    width: 80%;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.chat-room-form button {
+}
