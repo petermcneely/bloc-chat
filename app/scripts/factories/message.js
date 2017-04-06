@@ -1,31 +1,43 @@
 (function () {
-    function Message($firebaseArray) {
-        var ref = firebase.database().ref().child("messages");
+    function Message(User) {
         var messagesRef = firebase.database().ref('messages');
-        var usersRef = firebase.database().ref('users');
+        var getRoomMessagesRef = function (id) {
+            return id ? messagesRef.orderByChild("roomId").equalTo(id) : null;
+        };
 
-        return {
-            getByRoomId: function (roomId) {
-                var messagesForRoomQuery = messagesRef.orderByChild("roomId").equalTo(roomId);
-                var messages = [];
-                return usersRef.once('value').then(function (usersSnapshot) {
-                    var users = usersSnapshot.val();
-
-                    return messagesForRoomQuery.once('value').then(function (messagesSnapshot) {
-                        var messages = messagesSnapshot.val();
+        var getByRoomId = function (id, callbackFn) {
+            var ref = getRoomMessagesRef(id);
+            if (ref) {
+                ref.on('value', function (snapshot) {
+                    User.getUsers().then(function (userValues) {
+                        var messages = snapshot.val();
                         if (messages) {
-                            messages.forEach(function (message) {
-                                message.username = users[message.userId].username;
-                            });
+                            for (var key in messages) {
+                                var message = messages[key];
+                                message.username = userValues[message.userId].username;
+                            }
                         }
-                        return messages;
+                        callbackFn(messages);
                     });
                 });
             }
+            else {
+                callbackFn(null);
+            }
+        };
+
+        var send = function (message) {
+            var newMessageRef = messagesRef.push();
+            newMessageRef.set(message);
+        };
+
+        return {
+            getByRoomId: getByRoomId,
+            send: send
         }
-    }
+    };
 
     angular
         .module('blocChat')
-        .factory('Message', ['$firebaseArray', Message]);
+        .factory('Message', ['User', Message]);
 })();
