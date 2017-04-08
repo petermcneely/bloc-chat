@@ -1,4 +1,7 @@
 <div class="home">
-    <chat-rooms on-update-current-chat-room="$ctrl.updateRoom(room)"></chat-rooms>
-    <chat-room room="$ctrl.currentRoom"></chat-room>
+    <chat-rooms class="chat-rooms" on-update-current-chat-room="$ctrl.updateRoom(room)" ng-animate="{enter: 'slide-in', leave: 'slide-out'}" ng-class="{true:'slide-in', false:'slide-out'}[$ctrl.toggle]"></chat-rooms>
+    <div class="chat-rooms-collapsed" ng-click="$ctrl.toggle=!$ctrl.toggle" ng-animate="{enter: 'slide-in', leave: 'slide-out'}" ng-class="{true:'slide-in', false:'slide-out'}[$ctrl.toggle]">
+        <div class="chat-rooms-collapsed-icon"><span class="fa fa-chevron-right" ng-animate="{enter: 'rotate', leave: 'rotate-back'}" ng-class="{true:'rotate', false:'rotate-back'}[$ctrl.toggle]"></span></div>
+    </div>
+    <chat-room room="$ctrl.currentRoom" ng-animate="{enter: 'slide-in', leave: 'slide-out'}" ng-class="{true:'slide-in', false:'slide-out'}[$ctrl.toggle]"></chat-room>
 </div>

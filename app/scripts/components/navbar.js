@@ -2,7 +2,7 @@
 
     var navbar = {
         templateUrl: '../templates/navbar.html',
-        controller: function () {
+        controller: ['User', function (User) {
             var self = this;
             self.user = undefined;
 
@@ -18,6 +18,9 @@
                     if (user) {
                         user.getToken().then(function (accessToken) {
                             self.user = user;
+                            User.addUser(
+                                { username: user.email }
+                            );
                         },
                         function (error) {
                             self.user = null;
@@ -29,7 +32,7 @@
                     console.log(error);
                 });
             };
-        }
+        }]
     };
 
     angular
